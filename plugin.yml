@@ -1,0 +1,14 @@
+name: ItemBrag
+api: 3.0.0
+version: 1.0.0
+main: TPE\ItemBrag\Main
+author: TPE
+
+commands:
+  brag:
+    description: "Brag to others about the item in your hand!"
+
+permissions:
+  brag.allow:
+    description: Allows players to brag using /brag.
+    default: true
