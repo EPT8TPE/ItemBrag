@@ -61,4 +61,4 @@ permissions:
 
 - Enchant levels are being added within the next few days (I know this will be heavily requested).
 
-<a href="https://poggit.pmmp.io/p/ItemBrag"><img src="https://poggit.pmmp.io/shield.api/ItemBrag"></a>
+[![](https://poggit.pmmp.io/shield.state/ItemBrag)](https://poggit.pmmp.io/p/ItemBrag)
