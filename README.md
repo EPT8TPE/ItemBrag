@@ -15,7 +15,7 @@ A pocketmine plugin that allows players to brag about their items.
 /brag:
 
 Hold the item you wish to brag to other players, run /brag and the items name will appear in chat along with its count.
-Any enchants will appear aslong as you have the permissions which can be found in the permissions section of the plugin.
+Any enchants will appear (including enchants from piggy ces) aslong as you have the permissions which can be found in the permissions section of the plugin.
 
 # Config
 
