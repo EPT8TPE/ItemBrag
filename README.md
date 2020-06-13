@@ -57,6 +57,7 @@ permissions:
 
 - Adding a configurable command delay as I know this will be requested.
 - Maybe a GUI for looking at items players are bragging about.
+- Correct colour formats for rarities of enchants from piggy custom enchants.
 
 # Support
 
