@@ -17,8 +17,6 @@ A pocketmine plugin that allows players to brag about their items.
 Hold the item you wish to brag to other players, run /brag and the items name will appear in chat along with its count.
 Any enchants will appear aslong as you have the permissions which can be found in the permissions section of the plugin.
 
-Currently piggy custom enchants do not appear, however we are working on this.
-
 # Config
 
 Set this to true if you wish to disable /brag without uninstalling the plugin
@@ -57,6 +55,11 @@ permissions:
     
 # Plans
 
-- Adding piggy ce support soon!
+- Adding a configurable command delay as I know this will be requested.
+- Maybe a GUI for looking at items players are bragging about.
+
+# Support
+
+If you need any assistance or have suggestions DM me on discord TPE#3107.
 
 [![](https://poggit.pmmp.io/shield.state/ItemBrag)](https://poggit.pmmp.io/p/ItemBrag)
