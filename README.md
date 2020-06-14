@@ -64,3 +64,5 @@ permissions:
 If you need any assistance or have suggestions DM me on discord TPE#3107.
 
 [![](https://poggit.pmmp.io/shield.state/ItemBrag)](https://poggit.pmmp.io/p/ItemBrag)
+
+<a href="https://poggit.pmmp.io/p/ItemBrag"><img src="https://poggit.pmmp.io/shield.api/ItemBrag"></a>
