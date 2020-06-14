@@ -43,12 +43,12 @@ no-perms-message-enchants: "§cYou do not have permission to brag about items wi
 
 permissions:
 
-  brag.allow:
+  itembrag.brag.allow:
   
     description: Allows players to brag using /brag.
     default: op
 
-  brag.allow.enchants:
+  itembrag.allow.enchants:
   
     description: Allows players to brag about items with enchants on.
     default: op
