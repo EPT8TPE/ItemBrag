@@ -64,7 +64,7 @@ class Main extends PluginBase implements Listener {
         311 => "Blaze",
         300 => "Bombardment",
         309 => "Bountyhunter",
-        302 => "Firework" 
+        302 => "Firework", 
         313 => "Grappling",
         312 => "Headhunter",
         310 => "Healing",
