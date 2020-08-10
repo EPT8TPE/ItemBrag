@@ -17,3 +17,7 @@ no-perms-message: "§cYou do not have permission to use this command!"
 # Message sent to player if they lack the permission to brag about items with enchants on
 
 no-perms-message-enchants: "§cYou do not have permission to brag about items with enchants on!"
+
+# The cooldown of the /brag command in seconds
+
+brag-cooldown-time: "30"
