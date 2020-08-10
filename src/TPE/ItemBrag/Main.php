@@ -1,7 +1,8 @@
 <?php
 
-namespace TPE\ItemBrag;
+declare(strict_types=1);
 
+namespace TPE\ItemBrag;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -10,7 +11,10 @@ use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use pocketmine\item\enchantment\EnchantmentInstance;
+
 class Main extends PluginBase implements Listener {
+
+    public $coolDownList = [];
 
     private $myEnchants = [0 => "Protection",
         1 => "Fire_protection",
@@ -147,63 +151,86 @@ class Main extends PluginBase implements Listener {
           if($this->config->get("brag-disabled") == false) {
             if($command->getName() == "brag") {
                 if($sender instanceof Player) {
+
                     if ($sender->hasPermission("itembrag.brag.allow")) {
-                        $itemb = $sender->getInventory()->getItemInHand();
-                        if($itemb->isNull()) {
-                            $sender->sendMessage($this->config->get("message-sent-to-player-when-hand-is-empty"));
-                            return false;
-                        }
-                        $item = $sender->getInventory()->getItemInHand()->getName();
-                        $player = $sender->getName();
-                        $itemc = $sender->getInventory()->getItemInHand()->getCount();
 
-                        $enchantmentNames = array_map(function(EnchantmentInstance $enchantment) : string{
-                            $translation = $this->myEnchants[$enchantment->getId()] ?? "";
-                            if($translation !== ""){
-                                return $this->getServer()->getLanguage()->translateString($translation);
+                        if(!isset($this->coolDownList[$sender->getName()])) {
+                            $this->coolDownList[$sender->getName()] = time() + $this->config->get("brag-cooldown-time");
+
+                            $itemb = $sender->getInventory()->getItemInHand();
+
+                            if($itemb->isNull()) {
+                                $sender->sendMessage($this->config->get("message-sent-to-player-when-hand-is-empty"));
+                                return false;
+
                             }
-                            return $enchantment->getType()->getName();
-                        }, $itemb->getEnchantments());
 
-                    $itemb->getEnchantments();
-                        $enchantmentLevels = array_map(function(EnchantmentInstance $enchantment) : int{
-                            return $enchantment->getLevel();
-                        },$itemb->getEnchantments());
-                        $newArray = [];
+                            $item = $sender->getInventory()->getItemInHand()->getName();
+                            $player = $sender->getName();
+                            $itemc = $sender->getInventory()->getItemInHand()->getCount();
 
-                        for($i = 0; $i < count($enchantmentNames); $i++) {
-                            $newArray[$i] = [$enchantmentNames[$i], $enchantmentLevels[$i]];
-                        }
-                        $message = TextFormat::YELLOW . "Enchants: ";
-                        for($i = 0; $i < count($newArray); $i++) {
-                            $message .= TextFormat::LIGHT_PURPLE . " {$newArray[$i][0]}: {$newArray[$i][1]}, ";
-                        }
+                            $enchantmentNames = array_map(function(EnchantmentInstance $enchantment) : string{
+                                $translation = $this->myEnchants[$enchantment->getId()] ?? "";
+                                if($translation !== ""){
+                                    return $this->getServer()->getLanguage()->translateString($translation);
+                                }
 
-                        if($itemb->hasEnchantments()) {
-                            if($sender->hasPermission("itembrag.allow.enchants")){
-                                $this->getServer()->broadcastMessage(TextFormat::BOLD . TextFormat::GOLD . TextFormat::ITALIC . "BRAG " . TextFormat::RESET . TextFormat::AQUA . TextFormat::BOLD . "$player " . TextFormat::RESET . TextFormat::GREEN . "is bragging about " . TextFormat::BOLD . TextFormat::GREEN . "X" . TextFormat::RESET . TextFormat::GREEN . "$itemc " . TextFormat::RESET . TextFormat::GREEN . "of " . TextFormat::RESET . TextFormat::BOLD . "$item" . "\n" . TextFormat::RESET . "$message");
+                                return $enchantment->getType()->getName();
+                            }, $itemb->getEnchantments());
 
+                            $itemb->getEnchantments();
+                            $enchantmentLevels = array_map(function(EnchantmentInstance $enchantment) : int{
+                                return $enchantment->getLevel();
+
+                            },$itemb->getEnchantments());
+                            $newArray = [];
+
+                            for($i = 0; $i < count($enchantmentNames); $i++) {
+                                $newArray[$i] = [$enchantmentNames[$i], $enchantmentLevels[$i]];
+                            }
+
+                            $message = TextFormat::YELLOW . "Enchants: ";
+                            for($i = 0; $i < count($newArray); $i++) {
+                                $message .= TextFormat::LIGHT_PURPLE . " {$newArray[$i][0]}: {$newArray[$i][1]}, ";
+                            }
+
+                            if($itemb->hasEnchantments()) {
+                                if($sender->hasPermission("itembrag.allow.enchants")){
+                                    $this->getServer()->broadcastMessage(TextFormat::BOLD . TextFormat::GOLD . TextFormat::ITALIC . "BRAG " . TextFormat::RESET . TextFormat::AQUA . TextFormat::BOLD . "$player " . TextFormat::RESET . TextFormat::GREEN . "is bragging about " . TextFormat::BOLD . TextFormat::GREEN . "X" . TextFormat::RESET . TextFormat::GREEN . "$itemc " . TextFormat::RESET . TextFormat::GREEN . "of " . TextFormat::RESET . TextFormat::BOLD . "$item" . "\n" . TextFormat::RESET . "$message");
+
+                                } else {
+                                    $sender->sendMessage($this->config->get("no-perms-message-enchants"));
+                                }
+                            }
+                            if(!$itemb->hasEnchantments()) {
+                                $this->getServer()->broadcastMessage(TextFormat::BOLD . TextFormat::GOLD . TextFormat::ITALIC . "BRAG " . TextFormat::RESET . TextFormat::AQUA . TextFormat::BOLD . "$player " . TextFormat::RESET . TextFormat::GREEN . "is bragging about " . TextFormat::BOLD . TextFormat::GREEN . "X" . TextFormat::RESET . TextFormat::GREEN . "$itemc " . TextFormat::RESET . TextFormat::GREEN . "of " . TextFormat::RESET . TextFormat::BOLD . "$item");
+                            }
+
+                        } else {
+                            if(time() < $this->coolDownList[$sender->getName()]) {
+                                $remaining = $this->coolDownList[$sender->getName()] - time();
+
+                                $sender->sendMessage(TextFormat::RED . "This command is on coolodwn for the next " . $remaining . "seconds!");
                             } else {
-                                $sender->sendMessage($this->config->get("no-perms-message-enchants"));
-
+                                unset($this->coolDownList[$sender->getName()]);
                             }
-                        }
-                        if(!$itemb->hasEnchantments()) {
-                            $this->getServer()->broadcastMessage(TextFormat::BOLD . TextFormat::GOLD . TextFormat::ITALIC . "BRAG " . TextFormat::RESET . TextFormat::AQUA . TextFormat::BOLD . "$player " . TextFormat::RESET . TextFormat::GREEN . "is bragging about " . TextFormat::BOLD . TextFormat::GREEN . "X" . TextFormat::RESET . TextFormat::GREEN . "$itemc " . TextFormat::RESET . TextFormat::GREEN . "of " . TextFormat::RESET . TextFormat::BOLD . "$item");
+
                         }
 
                     } else {
                         $sender->sendMessage($this->config->get("no-perms-message"));
-
                     }
 
                 } else {
                     $sender->sendMessage("You can not run this command via console");
                 }
+
             }
+
         } else {
             $sender->sendMessage($this->config->get("brag-feature-disabled-message"));
         }
+
           return true;
     }
 
