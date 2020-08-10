@@ -15,7 +15,7 @@ A pocketmine plugin that allows players to brag about their items.
 /brag:
 
 Hold the item you wish to brag to other players, run /brag and the items name will appear in chat along with its count.
-Any enchants will appear (including enchants from piggy ces) aslong as you have the permissions which can be found in the permissions section of the plugin.
+Any enchants will appear (including enchants from piggy ces) aslong as you have the permissions which can be found in the permissions section of the plugin. A delay for the command has been highly requested so I have done that and made it configurable.
 
 # Config
 
@@ -39,6 +39,10 @@ Message sent to player if they lack the permission to brag about items with ench
 
 no-perms-message-enchants: "§cYou do not have permission to brag about items with enchants on!"
 
+The cooldown of the /brag command in seconds
+
+brag-cooldown-time: "30"
+
 # Permissions
 
 permissions:
@@ -55,8 +59,6 @@ permissions:
     
 # Plans
 
-- Adding a configurable command delay as I know this will be requested.
-- Maybe a GUI for looking at items players are bragging about.
 - Correct colour formats for rarities of enchants from piggy custom enchants.
 
 # Support
