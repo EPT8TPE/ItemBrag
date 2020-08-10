@@ -210,7 +210,7 @@ class Main extends PluginBase implements Listener {
                             if(time() < $this->coolDownList[$sender->getName()]) {
                                 $remaining = $this->coolDownList[$sender->getName()] - time();
 
-                                $sender->sendMessage(TextFormat::RED . "This command is on coolodwn for the next " . $remaining . "seconds!");
+                                $sender->sendMessage(TextFormat::RED . "This command is on cooldown for the next " . $remaining . " seconds!");
                             } else {
                                 unset($this->coolDownList[$sender->getName()]);
                             }
