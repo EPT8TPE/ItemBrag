@@ -16,6 +16,7 @@ class Main extends PluginBase implements Listener {
 
     public $coolDownList = [];
 
+    // I haven't updated these for piggy ces, if anyone would like to, be my guest.
     private $myEnchants = [0 => "Protection",
         1 => "Fire_protection",
         2 => "Feather_falling",
@@ -170,7 +171,7 @@ class Main extends PluginBase implements Listener {
                             $itemc = $sender->getInventory()->getItemInHand()->getCount();
 
                             $enchantmentNames = array_map(function(EnchantmentInstance $enchantment) : string{
-                                $translation = $this->myEnchants[$enchantment->getId()] ?? "";
+                                $translation = $this->myEnchants[$enchantment->getType()->getId()] ?? "";
                                 if($translation !== ""){
                                     return $this->getServer()->getLanguage()->translateString($translation);
                                 }
